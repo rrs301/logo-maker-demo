@@ -4,31 +4,39 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Slider } from "@/components/ui/slider"
 import ColorPickerController from './ColorPickerController';
 import { ControllerValueContext } from '../_context/ControllerValueContext';
+import IconListDialog from './IconListDialog';
 
 function IconControlPanel() {
+  const storageValue=JSON.parse(localStorage.getItem("value"))
+  const {value,setValue}=useContext(ControllerValueContext);
+
     const [size, setSize] = useState(280);
     const [rotate, setRotate] = useState(0);
+    const [selectedIcon, setSelectedIcon] = useState('Anchor');
+
     const [color, setColor] = useState('#000');
 
-    const {value,setValue}=useContext(ControllerValueContext);
+    //const {value,setValue}=useContext(ControllerValueContext);
 
     useEffect(()=>{
       const update={
-        ...value,
+        ...storageValue,
         iconSize:size,
         iconRotate:rotate,
-        iconColor:color
+        iconColor:color,
+        icon:selectedIcon
       }
-      console.log(update)
       setValue(update);
-    },[size,rotate,color])
+      localStorage.setItem('value',JSON.stringify(update));
+    },[size,rotate,color,selectedIcon])
     
   return (
     <div>
             <div className=''>
                 <label>Icon</label>
-                <LayoutGridIcon className='h-12 w-12 p-3
-         cursor-pointer bg-gray-200 rounded-md'/>
+                {/* <LayoutGridIcon className='h-12 w-12 p-3
+         cursor-pointer bg-gray-200 rounded-md'/> */}
+         <IconListDialog selectedIcon={setSelectedIcon}/>
 
             </div>
 
@@ -44,7 +52,7 @@ function IconControlPanel() {
 
             <div className='py-3'>
                 <label className='p-2 flex justify-between my-2 text-sm'>Border Color </label>
-                <ColorPickerController selectedColor={setColor}/>
+                <ColorPickerController selectedColor={setColor} hideControls={true} />
             </div>
     </div>
   )

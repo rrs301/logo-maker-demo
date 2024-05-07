@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ControlPanel from "./_components/ControlPanel";
+import LogoPlayGround from "./_components/LogoPlayGround";
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
           <ControlPanel/>
         </div>
         <div className="col-span-3">
-          
+            <LogoPlayGround/>
           </div>
           <div className="bg-green-50">
             kl
